@@ -20,6 +20,8 @@ mongoose
 // Routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/user", require("./routes/user"));  // 🔹 Register the user route here
+app.use("/api/quiz", require("./routes/quiz"));
+
 
 
 // Test Route
