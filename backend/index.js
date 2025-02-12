@@ -7,11 +7,14 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000", // Allow frontend requests
+  credentials: true,
+}));
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((connection) => {
     console.log("MongoDB connected to:", connection.connection.name);
   })
@@ -19,10 +22,9 @@ mongoose
 
 // Routes
 app.use("/api/auth", require("./routes/auth"));
-app.use("/api/user", require("./routes/user"));  // 🔹 Register the user route here
+app.use("/api/user", require("./routes/user"));  
 app.use("/api/quiz", require("./routes/quiz"));
-
-
+app.use("/api/match", require("./routes/match")); // ✅ Added missing match.js route
 
 // Test Route
 app.get("/", (req, res) => {
